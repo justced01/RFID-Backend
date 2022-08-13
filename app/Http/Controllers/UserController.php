@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 use App\Models\User;
 
 class UserController extends Controller
@@ -21,11 +22,11 @@ class UserController extends Controller
     }
 
     # DOCU: This function will send json data containing user information 
-    public function show($id){
+    public function show(Request $request){
         return response()->json([
             'status' => 200,
             'message' => 'User data successfully retrieved!',
-            'data' => User::where('id', $id)->first()
+            'data' => User::where('id', $request->user()->id)->first()
         ]);
     }
     
@@ -56,6 +57,9 @@ class UserController extends Controller
         // Notes: 
         // Bearer Token
         // User log
+        $user = $request->user();
+        $tokenResult = auth()->user()->createToken('LaravelAuthApp');
+        $token = $tokenResult->token;
 
         $user_data = User::where('email', $request->email)->first();
 
@@ -65,6 +69,11 @@ class UserController extends Controller
                 'message' => 'Welcome Super Admin user!',
                 'user_data' => ['first_name' => $user_data->first_name, 'user_id' => $user_data->id],
                 'redirect' => '/api/user/sadmin/dashboard',
+                'access_token' => $tokenResult->accessToken,
+                'token_type' => 'Bearer',
+                'expires_at' => Carbon::parse(
+                    $tokenResult->token->expires_at
+                )->toDateTimeString(),
             ]);
         } elseif ($user_data->role === 2){
             return response()->json([
@@ -72,6 +81,11 @@ class UserController extends Controller
                 'message' => 'Welcome Admin user!',
                 'user_data' => ['first_name' => $user_data->first_name, 'user_id' => $user_data->id],
                 'redirect' => '/api/user/admin/dashboard',
+                'access_token' => $tokenResult->accessToken,
+                'token_type' => 'Bearer',
+                'expires_at' => Carbon::parse(
+                    $tokenResult->token->expires_at
+                )->toDateTimeString(),
             ]);
         } elseif ($user_data->role === 3){
             return response()->json([
@@ -79,6 +93,11 @@ class UserController extends Controller
                 'message' => 'Welcome user!',
                 'user_data' => ['first_name' => $user_data->first_name, 'user_id' => $user_data->id],
                 'redirect' => '/api/user/dashboard',
+                'access_token' => $tokenResult->accessToken,
+                'token_type' => 'Bearer',
+                'expires_at' => Carbon::parse(
+                    $tokenResult->token->expires_at
+                )->toDateTimeString(),
             ]);
         }
     }
