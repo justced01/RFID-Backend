@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +21,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::get('/test', [TestController::class, 'test']);
-Route::get('/user/login', [UserController::class, 'index']);
-Route::post('/user/login', [UserController::class, 'login']);
+// User login and registration
+Route::get('/users', [UserController::class, 'index']);
+Route::post('/users/login', [UserController::class, 'login']);
+Route::get('/users/new', [UserController::class, 'register']);
+Route::post('/users/create', [UserController::class, 'create']);
+Route::post('/users/show/{id}', [UserController::class, 'show']);
+Route::post('/users/update/{id}', [UserController::class, 'update']);
+Route::post('/users/logout', [UserController::class, 'logout']);
 
 // Dashboard
-Route::get("/user/dashboard", [UserController::class, 'dashboard']);
+Route::get("/users/dashboard", [DashboardController::class, 'index']);
+
+// Attendance
+Route::get("/users/attendance", [AttendanceController::class, 'index']);
+Route::post("/users/time_in/{id}", [AttendanceController::class, 'clockIn']);
+Route::post("/users/time_out/{id}", [AttendanceController::class, 'clockOut']);

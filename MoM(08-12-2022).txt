@@ -1,0 +1,49 @@
+Members: Paul, Wyndell. Cedrick
+
+Task:
+- Focus in CMS specifically on Login w/o registration (Cedrick)
+Notes in Login:
+- redirect depends in user role
+    1 - super admin
+    2 - admin
+    3 - user (parent)
+- attributes (User Table)
+    id
+    first name
+    middle name
+    last name
+    email
+    password
+    user_role
+    created_at
+    updated_at
+
+
+- One to Many (User -> Student(user_id))
+- Create student table
+- attributes (Student Table)
+    id
+    user_id
+    first name
+    middle name
+    last name
+    email
+    password
+    created_at
+    updated_at
+
+
+- patterns in json response
+    {
+        "status" : 200,
+        "message" : "successfully initiated",
+        "data" : [0 => 'sample', 1 => 'sample']
+    }
+
+- JSON Response Code:
+    Success Code: 200
+    Error Code: 301
+
+
+13:25 PM START
+14:02 PM END 

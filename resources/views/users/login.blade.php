@@ -3,17 +3,16 @@
 
 @section('content') 
     <p>{{ session('message') }}</p>
-    <form action="/api/user/login" method="post">
+    @if($errors->any()) 
+        @foreach($errors->all() as $error) 
+        <p>{{ $error }}</p>
+        @endforeach
+    @endif
+    <form action="/api/users/login" method="post">
         @csrf 
         Email: <input type="text" name="email" id="">
         Password: <input type="password" name="password" id="">
         <input type="submit" value="Login">
     </form>
-    @if($errors->any()) 
-    <ul>
-        @foreach($errors->all() as $error) 
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-    @endif
+    <p>Don't have an account yet?<a href="/api/users/new"> Register here.</a></p>
 @endsection
