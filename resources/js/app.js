@@ -3,8 +3,12 @@ import './bootstrap'
 import { createApp } from 'vue'
 import router from './router'
 import axios from 'axios'
+import mitt from 'mitt';
 import App from './App.vue'
 
-createApp(App)
-    .use(router)
-    .mount('#app')
+const emitter = mitt();
+
+const app = createApp(App)
+app.config.globalProperties.emitter = emitter
+app.use(router)
+app.mount('#app')

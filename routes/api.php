@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,9 @@ use App\Http\Controllers\UserController;
 
 Route::post('/users/create', [UserController::class, 'create']);
 Route::post('/users/login', [UserController::class, 'login']);
+
+Route::post('/time_in', [AttendanceController::class, 'time_in']);
+Route::get('/show', [AttendanceController::class, 'showAll']);
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/users/show', [UserController::class, 'show']);

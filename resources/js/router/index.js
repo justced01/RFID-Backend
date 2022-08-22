@@ -1,22 +1,23 @@
-import { createWebHistory, createRouter } from 'vue-router';
-import Home from '../views/Home.vue';
-import Login from '../views/Login.vue';
+import { createWebHistory, createRouter } from 'vue-router'
+import Login from '../views/Login.vue'
+import Click from '../views/Click.vue'
 
-import DashboardUser from '../views/user/Dashboard.vue';
+import LoginUser from '../views/user/Login.vue'
+import DashboardUser from '../views/user/Dashboard.vue'
 
-import DashboardAdmin from '../views/admin/Dashboard.vue';
-import Attendance from '../views/admin/Attendance.vue';
+import DashboardAdmin from '../views/admin/Dashboard.vue'
+import Attendance from '../views/admin/Attendance.vue'
 
 export const routes = [
+    // {
+    //     path: '/',
+    //     name: 'Login',
+    //     component: Login
+    // },
     {
         path: '/',
-        name: 'Home',
-        component: Home
-    },
-    {
-        path: '/login',
-        name: 'Login',
-        component: Login
+        name: 'Login - User',
+        component: LoginUser
     },
     {
         path: '/admin/dashboard',
@@ -32,7 +33,12 @@ export const routes = [
         path: '/attendance',
         name: 'Attendance',
         component: Attendance
-    }
+    },
+    {
+        path: '/click',
+        name: 'Click',
+        component: Click
+    },
 ];
 
 const router = createRouter({
