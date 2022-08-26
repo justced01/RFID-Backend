@@ -99,49 +99,54 @@
                                 <i class="fas fa-sign-out-alt pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-black block md:inline-block">Logout</span>
                             </a>
                         </li>
-                        <!-- <li class="mr-3 flex-1">
+                        <li class="mr-3 flex-1">
                             <router-link to="/click" class="block py-1 md:py-3 pl-1 align-middle text-[#447604] font-bold no-underline hover:text-[#447604] hover:bg-gray-200">
                                 <i class="fas fa-sign-out-alt pr-0 md:pr-3"></i><span class="pb-1 md:pb-0 text-xs md:text-base text-black block md:inline-block">Click Here</span>
                             </router-link>
-                        </li> -->
+                        </li>
                     </div>
                 </ul>
             </div>
         </div>
-
         <router-view></router-view>
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'App',
-        data(){
-            return{
-                isLoggedIn: false,
-            }
-        },   
-        mounted: function () { 
-            this.emitter.on('loggedIn', data => {
-                this.isLoggedIn = data
-            });
-        },  
-        methods: {
-            logout(e){
-                e.preventDefault()
-                this.isLoggedIn = false
-                this.$router.push('/')
-            },
-            toggleDD(myDropMenu) {
-                document.getElementById(myDropMenu).classList.toggle("invisible")
-            }
+import DashboardUser from './views/user/Dashboard.vue'
+export default {
+    name: 'App',
+    data(){
+        return {
+            isLoggedIn: false,
+            accessToken: '',
+        }
+    },   
+    components: { DashboardUser },
+    mounted: function (){ 
+        this.emitter.on('loggedIn', data => {
+            this.isLoggedIn = data
+        }),
+        this.emitter.on('access_token', data => {
+            console.log(data)
+        })
+    },  
+    methods: {
+        logout(e){
+            e.preventDefault()
+            this.isLoggedIn = false
+            this.$router.push('/')
+        },
+        toggleDD(myDropMenu) {
+            document.getElementById(myDropMenu).classList.toggle("invisible")
         }
     }
+}
 </script>
 
 <style>
 #app {
-  font-family: Poppins, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Georama', Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;

@@ -34,16 +34,18 @@ export default {
         };
     },
     methods: {
-        getAttendance(){
-            axios.get('/api/show')  
-            .then(function (response){
-                this.users = response.data.data
-            })
-        }
+        // getAttendance(){
+        //     axios.get('/api/show')  
+        //     .then(function (response){
+        //         this.users = response.data.data
+        //     })
+        // }
     },
     mounted(){
-        axios.get('/api/show')  
-        .then(response => (this.records = response.data.data))
-    }
+        setInterval(() => {
+            axios.get('/api/admin/show')  
+            .then(response => (this.records = response.data.data))
+        }, 1000);
+    },
 };
 </script>

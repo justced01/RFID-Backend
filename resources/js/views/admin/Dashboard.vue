@@ -150,25 +150,24 @@
 
 <script>
 export default {
-  data() {
-    return {
-      isLoggedIn: true,
-    };
-  },
-  methods: {
-    clickme() {
-      axios
-        .post("/api/time_in", {
-          student_name: "Jane Doe",
-          parent_name: "John Doe",
-        })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+    data(){
+        return {
+
+        };
     },
-  },
+    methods: {
+        clickme(){
+            axios.post("/api/time_in", {
+                student_name: "Jane Doe",
+                parent_name: "John Doe",
+            })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+    },
 };
 </script>

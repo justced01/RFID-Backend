@@ -48,8 +48,6 @@ export default {
                 .then(response => {
                     if(response.data.status === 200){
                         this.emitter.emit('loggedIn', true);
-                        let accessToken = response.data.access_token
-                        let user = response.data.user_data
                         this.$router.push(response.data.redirect)
                     } else {
                         this.errorMessages.push(response.data.message)

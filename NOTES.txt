@@ -1,0 +1,22 @@
+documentation in setting up the project
+
+api in admin
+
+vue auto refresh page
+
+-> click me
+another api for notif
+notif table
+
+config date and time sa xampp
+
+add counter in notif nav
+
+notif page
+attendance record page
+malaking green na page - attendance history
+
+Don't forget:
+1. Changing show password icon
+2. Modify UI width: 395px;
+            height: 797px;
