@@ -22,7 +22,9 @@
     },
     "dependencies": {
         "mitt": "^3.0.0",
+        "moment": "^2.29.4",
         "vue": "^3.2.36",
-        "vue-router": "^4.0.13"
+        "vue-router": "^4.0.13",
+        "vuex": "^4.0.2"
     }
 }

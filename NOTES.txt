@@ -20,3 +20,19 @@ Don't forget:
 1. Changing show password icon
 2. Modify UI width: 395px;
             height: 797px;
+
+
+DOCUMENTATION
+rfid-project
+Environment: 
+A Vue.js project
+
+Build Setup
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build

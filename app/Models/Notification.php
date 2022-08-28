@@ -8,11 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class Notification extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'student_name',
-        'temperature',
-        'time_in', 
-        'time_out',
-        'date',
-    ];
 }

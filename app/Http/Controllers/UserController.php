@@ -78,7 +78,7 @@ class UserController extends Controller
             'middle_name' => 'required|string|min:3',
             'last_name' => 'required|string|min:3',
             'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed'
+            'password' => 'required|string|confirmed',
         ]);
 
         User::create([
@@ -86,7 +86,8 @@ class UserController extends Controller
             'middle_name' => $request->middle_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'password' => bcrypt($request->input('password'))
+            'password' => bcrypt($request->input('password')),
+            'role' => $request->role
         ]);
 
         return response()->json([

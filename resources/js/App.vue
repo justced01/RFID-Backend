@@ -119,16 +119,14 @@ export default {
     data(){
         return {
             isLoggedIn: false,
-            accessToken: '',
         }
     },   
-    components: { DashboardUser },
-    mounted: function (){ 
+    components: { 
+        DashboardUser 
+    },
+    mounted: function(){ 
         this.emitter.on('loggedIn', data => {
             this.isLoggedIn = data
-        }),
-        this.emitter.on('access_token', data => {
-            console.log(data)
         })
     },  
     methods: {

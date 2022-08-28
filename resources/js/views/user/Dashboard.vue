@@ -6,7 +6,7 @@
         <div class="flex flex-col p-5 w-full h-auto relative overflow-scroll">
             <header class="flex flex-row justify-between mb-2">
                 <div>
-                    <p class="text-[18px] text-[#222222] font-[600]">Welcome Jane</p>
+                    <p class="text-[18px] text-[#222222] font-[600]">Welcome {{ currentUser.first_name }}</p>
                     <p class="text-[12px] text-[#C1BFBF] font-[500]">Last login was on June 28, 2022 Friday</p>
                 </div>
                 <div>
@@ -15,8 +15,8 @@
             </header>
             <div class="mb-4">
                 <div class="w-full text-right text-[#B2B3B5]">1/3</div>
-                <!-- <StudentCard /> -->
-                <StudentCardSkeleton />
+                <StudentCard v-if="showStudentCard" />
+                <StudentCardSkeleton v-if="showSkeletonStudentCard" />
                 <div class="dots mt-1 flex flex-row justify-center">
                     <span class="w-[8px] h-[8px] mx-0.5 rounded-full bg-[#464646]"></span>
                     <span class="w-[8px] h-[8px] mx-0.5 rounded-full bg-[#464646]"></span>
@@ -61,8 +61,6 @@
                     <img :src="baseUrl + '/images/announcement.png'">
                 </div>
             </div>
-            {{ baseUrl }}
-            {{ accessToken }}
         </div>
         <NavigationComponent />
     </div>
@@ -79,8 +77,9 @@ export default {
     name: 'User Dashboard',
     data(){
         return {
-            accessToken: '',
             baseUrl: window.location.origin,
+            showStudentCard: false,
+            showSkeletonStudentCard: true,
         }
     },
     components: { ToasterComponent, NavigationComponent, StudentCard, StudentCardSkeleton },
@@ -94,20 +93,19 @@ export default {
 
         return { showToast, triggerToast }
     },
-    // mounted(){
-    //     axios.get('/api/users/show', { headers: {'Authorization' : `Bearer ${token}`}  })  
-    //     .then( response => (
-    //         this.user = response.data.data)
-    //     )
-    //     .catch((error) => {
-    //         console.log(error)
-    //     })
-    // },  
-    mounted: function(){ 
-        this.emitter.on('send_access_token', data => {
-            this.accessToken = data
-        })
-    }, 
+    computed: { 
+        currentUser: {
+            get(){
+                return this.$store.state.user
+            }
+        }
+    },
+    created(){
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('user_token')
+        this.$store.dispatch('getUser')
+        setTimeout(() => this.showStudentCard = true, 5000)
+        setTimeout(() => this.showSkeletonStudentCard = false, 5000)
+    },  
     methods: {
         logout(e){
             e.preventDefault()

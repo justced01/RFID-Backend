@@ -13,7 +13,7 @@
                 <th class="px-6 py-2">RFID Tag</th>
             </tr>
             <tr v-for="record in records" :key="record.id">
-                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300">{{ record.id }}</td>
+                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300">{{ record.attendance_id }}</td>
                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300">{{ record.student_name }}</td>
                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300">{{ record.parent_name }}</td>
                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300">{{ record.time_in }}</td>
@@ -34,18 +34,13 @@ export default {
         };
     },
     methods: {
-        // getAttendance(){
-        //     axios.get('/api/show')  
-        //     .then(function (response){
-        //         this.users = response.data.data
-        //     })
-        // }
+
     },
     mounted(){
         setInterval(() => {
-            axios.get('/api/admin/show')  
+            axios.get('/api/admin/show_attendance')  
             .then(response => (this.records = response.data.data))
-        }, 1000);
+        }, 5000);
     },
 };
 </script>

@@ -11,10 +11,7 @@ export default {
     },
     methods: {
         clickme(){
-            axios.post("/api/admin/time_in", {
-                student_name: "Samantha",
-                parent_name: "Jane Doe",
-            })
+            axios.post("/api/admin/time_in")
             .then(function (response){
                 this.emitter.emit('triggerToast', {
                     
