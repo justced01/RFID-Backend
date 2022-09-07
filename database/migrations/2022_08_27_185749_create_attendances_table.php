@@ -17,8 +17,8 @@ return new class extends Migration
             $table->increments('id');
             $table->integer('student_id')->unsigned();
             $table->foreign('student_id')->references('id')->on('students');
-            $table->time('time_in');
-            $table->time('time_out');
+            $table->time('time_in')->nullable();
+            $table->time('time_out')->nullable();
             $table->date('date');
             $table->string('rfid');
             $table->string('temperature');

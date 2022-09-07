@@ -16,14 +16,21 @@
                     <div class="flex flex-col flex-start relative">
                         <img :src="'images/icons/message-icon.png'" class="absolute left-3 bottom-8">
                         <label class="text-[13px] font-medium">Email Address</label>
-                        <input type="text" name="email" placeholder="Email address" v-model="user.email" class="my-3 rounded-lg py-[16px] px-[8px] pl-10 border border-[#464646] placeholder:text-[13px] placeholder:font-medium">
+                        <input type="text" name="email" placeholder="Email address" v-model="user.email" required 
+                            class="my-3 rounded-lg py-[16px] px-[8px] pl-10 border border-[#464646] placeholder:text-[13px] placeholder:font-medium">
                     </div>
                     <div class="flex flex-col flex-start relative">
                         <img :src="'images/icons/password-icon.png'" class="absolute left-3 bottom-8">
                         <label class="text-[13px] font-medium">Password</label>
                         <img :src="'images/icons/show-password.png'" @click="toggleShow()" class="absolute right-4 bottom-8">
-                        <input type="password" name="password" placeholder="Password" v-if="hidePassword" v-model="user.password" class="my-3 rounded-lg py-[16px] px-[8px] pl-10 border border-[#464646] placeholder:text-[13px] placeholder:font-medium">
-                        <input type="text" name="password" placeholder="Password" v-else v-model="user.password" class="my-3 rounded-lg py-[16px] px-[8px] pl-10 border border-[#464646] placeholder:text-[13px] placeholder:font-medium">
+                        <input type="password" name="password" placeholder="Password" required
+                            v-if="hidePassword" 
+                            v-model="user.password"  
+                            class="my-3 rounded-lg py-[16px] px-[8px] pl-10 border border-[#464646] placeholder:text-[13px] placeholder:font-medium">
+                        <input type="text" name="password" placeholder="Password" required
+                            v-else 
+                            v-model="user.password"
+                            class="my-3 rounded-lg py-[16px] px-[8px] pl-10 border border-[#464646] placeholder:text-[13px] placeholder:font-medium">
                     </div>
                     <div class="text-right">
                         <router-link to="/forgot-password" class="w-[40px] text-[#00A950]">Forgot Password</router-link>
@@ -46,15 +53,13 @@ export default {
         return {
             hidePassword: true,
             user: {
-                email: "",
-                password: "",
+                email: '',
+                password: '',
             },
             errorMessages: [],
         }
     },
-    components: { 
-        LoaderComponent 
-    },
+    components: { LoaderComponent },
     methods: {
         toggleShow(){
             this.hidePassword = !this.hidePassword
@@ -62,11 +67,12 @@ export default {
         handleLogin(){
             // validation
             this.errorMessages = []
-            this.user.email ? "" : this.errorMessages.push("Email is required.")
-            this.user.password ? "" : this.errorMessages.push("Password is required.")
+            this.user.email ? '' : this.errorMessages.push('Email is required.')
+            this.user.password ? '' : this.errorMessages.push('Password is required.')
 
             if(this.errorMessages.length === 0){
                 this.$store.dispatch('loginUser', this.user)
+                this.$store.commit('isLoggedIn')
             }
         }
     }

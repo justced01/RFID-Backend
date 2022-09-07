@@ -45,6 +45,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'Welcome Super Admin user!',
+                'role' => $user_data->role,
                 'redirect' => '/admin/dashboard',
                 'access_token' => $tokenResult->accessToken,
                 'token_type' => 'Bearer',
@@ -54,6 +55,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'Welcome Admin user!',
+                'role' => $user_data->role,
                 'redirect' => '/admin/dashboard',
                 'access_token' => $tokenResult->accessToken,
                 'token_type' => 'Bearer',
@@ -63,6 +65,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'Welcome user!',
+                'role' => $user_data->role,
                 'redirect' => '/user/dashboard',
                 'access_token' => $tokenResult->accessToken,
                 'token_type' => 'Bearer',

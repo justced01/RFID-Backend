@@ -6,6 +6,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\StudentController;
+use App\Events\ToasterNotification;
+use App\Events\UpdateCountNotification;
+use App\Events\UpdateStudentCard;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,22 +25,44 @@ use App\Http\Controllers\StudentController;
 //     return $request->user();
 // });
 
-Route::post('/users/create', [UserController::class, 'create']);
-Route::post('/users/login', [UserController::class, 'login']);
+Route::post('/create', [UserController::class, 'create']); // Creating account
+Route::post('/login', [UserController::class, 'login']); //Login account
 
 Route::post('/admin/time_in', [AttendanceController::class, 'time_in']);
+Route::post('/admin/time_out', [AttendanceController::class, 'time_out']);
+
+Route::post('/admin/add_notification', [NotificationController::class, 'create']);
 Route::get('/admin/show_attendance', [AttendanceController::class, 'showAll']);
 
-Route::post('/users/show', [NotificationController::class, 'show']);
+// Events
+Route::get('/admin/show_notification', function(){
+    event(new ToasterNotification('Show Toaster'));
+});
+Route::get('/admin/update_count_notification', function(){
+    event(new UpdateCountNotification('Update Counter Notification'));
+});
+Route::get('/admin/update_student_card', function(){
+    event(new UpdateStudentCard('Update Student Card'));
+});
 
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::post('/users/show', [UserController::class, 'show']);
-    Route::post('/users/logout', [UserController::class, 'logout']);
-    Route::post('/users/show_student_logs', [AttendanceController::class, 'getStudentLogs']);
-    Route::post('/users/show_student_history', [AttendanceController::class, 'getLatestStudentLog']);
+
+    Route::controller(UserController::class)->group(function () {
+        Route::post('/users/show', 'show');
+        Route::post('/users/logout', 'logout');
+    });
+
+    Route::controller(AttendanceController::class)->group(function () {
+        Route::post('/users/get_student_logs', 'findStudentLogs');
+        Route::post('/users/show_student_logs', 'getStudentLogs');
+        Route::post('/users/show_student_history', 'getLatestStudentLog');
+    });
+
+    Route::controller(NotificationController::class)->group(function () {
+        Route::post('/users/get_notification', 'findUserNotif');
+    });
 
     Route::post('/admin/create_student', [StudentController::class, 'create']);
-    // Route::post('/admin/time_in', [AttendanceController::class, 'time_in']);
-    // Route::get('/admin/show', [AttendanceController::class, 'showAll']);
+
 });

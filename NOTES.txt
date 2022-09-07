@@ -25,14 +25,18 @@ Don't forget:
 DOCUMENTATION
 rfid-project
 Environment: 
-A Vue.js project
+    Vue.js 3
+    Laravel 9
+    PHP 8
+A rfid project
 
 Build Setup
 # install dependencies
-npm install
+    npm install
+    composer update
+    php artisan migrate
+    php artisan passport:install
 
 # serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
+    npm run dev
+    php artisan serve

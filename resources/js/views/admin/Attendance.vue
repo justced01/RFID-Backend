@@ -36,11 +36,14 @@ export default {
     methods: {
 
     },
-    mounted(){
-        setInterval(() => {
-            axios.get('/api/admin/show_attendance')  
-            .then(response => (this.records = response.data.data))
-        }, 5000);
+    created(){
+        axios.get('/api/admin/show_attendance')  
+        .then(response => (this.records = response.data.data))
+        Echo.channel('toaster-notification')
+            .listen('ToasterNotification', (e) => {
+                axios.get('/api/admin/show_attendance')  
+                .then(response => (this.records = response.data.data))
+            })
     },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div class="relative w-[428px] h-[926px] bg-white mx-auto">
         <transition name="toast">
-            <ToasterComponent v-if="showToast" />
+            <ToasterComponent v-if="this.showToast" @click="$router.push('/user/notification')"/>
         </transition>
         <div class="flex flex-col p-5 w-full h-auto relative overflow-scroll">
             <header class="flex flex-row justify-between mb-2">
@@ -15,8 +15,8 @@
             </header>
             <div class="mb-4">
                 <div class="w-full text-right text-[#B2B3B5]">1/3</div>
-                <StudentCard v-if="showStudentCard" />
-                <StudentCardSkeleton v-if="showSkeletonStudentCard" />
+                <StudentCard v-if="$store.state.showStudentCard" @click="$router.push('/user/attendance_history')" />
+                <StudentCardSkeleton v-if="$store.state.showSkeletonStudentCard" />
                 <div class="dots mt-1 flex flex-row justify-center">
                     <span class="w-[8px] h-[8px] mx-0.5 rounded-full bg-[#464646]"></span>
                     <span class="w-[8px] h-[8px] mx-0.5 rounded-full bg-[#464646]"></span>
@@ -67,7 +67,6 @@
 </template>
 
 <script>
-import { ref } from 'vue'
 import ToasterComponent from '../../components/ToasterComponent.vue'
 import NavigationComponent from '../../components/NavigationComponent.vue'
 import StudentCard from '../../components/StudentCard.vue'
@@ -80,37 +79,48 @@ export default {
             baseUrl: window.location.origin,
             showStudentCard: false,
             showSkeletonStudentCard: true,
+            showToast: false,
+            interval: null,
+            message: '',
+            student_profile: '',
         }
     },
     components: { ToasterComponent, NavigationComponent, StudentCard, StudentCardSkeleton },
-    setup(){
-        const showToast = ref(false)
-
-        const triggerToast = () => {
-            showToast.value = true
-            setTimeout(() => showToast.value = false, 3000)
-        }
-
-        return { showToast, triggerToast }
-    },
     computed: { 
         currentUser: {
             get(){
                 return this.$store.state.user
             }
-        }
+        },
     },
     created(){
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('user_token')
         this.$store.dispatch('getUser')
-        setTimeout(() => this.showStudentCard = true, 5000)
-        setTimeout(() => this.showSkeletonStudentCard = false, 5000)
+
+        Echo.channel('update-student-card')
+            .listen('UpdateStudentCard', (e) => {
+                this.$store.commit('showStudentCard')
+            })
+
+        Echo.channel('toaster-notification')
+            .listen('ToasterNotification', (e) => {
+                this.showToast = true
+                this.hideToast()
+            })
+
+        if(this.$store.state.showStudentCard){
+            this.$store.commit('loadSkeletonStudentCard')
+        }
     },  
     methods: {
         logout(e){
             e.preventDefault()
+            this.$store.commit('destroyToken')
             this.$router.push('/')
         },
+        hideToast(){
+            setTimeout(() => this.showToast = false, 3000)
+        }
     }
 }
 </script>

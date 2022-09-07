@@ -1,6 +1,9 @@
 import { createWebHistory, createRouter } from 'vue-router'
-import Login from '../views/Login.vue'
-import Click from '../views/Click.vue'
+
+import Login from '../views/admin/Login.vue'
+import Click from '../views/admin/Click.vue'
+import DashboardAdmin from '../views/admin/Dashboard.vue'
+import Attendance from '../views/admin/Attendance.vue'
 
 import LoginUser from '../views/user/Login.vue'
 import DashboardUser from '../views/user/Dashboard.vue'
@@ -8,20 +11,11 @@ import Notification from '../views/user/Notification.vue'
 import AttendanceHistory from '../views/user/AttendanceHistory.vue'
 import AttendanceRecord from '../views/user/AttendanceRecord.vue'
 
-
-import DashboardAdmin from '../views/admin/Dashboard.vue'
-import Attendance from '../views/admin/Attendance.vue'
-
 export const routes = [
-    // {
-    //     path: '/',
-    //     name: 'Login',
-    //     component: Login
-    // },
     {
         path: '/',
-        name: 'Login - User',
-        component: LoginUser,
+        name: 'Login',
+        component: Login
     },
     {
         path: '/admin/dashboard',
@@ -29,14 +23,19 @@ export const routes = [
         component: DashboardAdmin
     },
     {
-        path: '/attendance',
+        path: '/admin/attendance',
         name: 'Attendance',
         component: Attendance
     },
     {
-        path: '/click',
+        path: '/admin/click',
         name: 'Click',
         component: Click
+    },
+    {
+        path: '/user',
+        name: 'Login - User',
+        component: LoginUser,
     },
     {
         path: '/user/dashboard',
